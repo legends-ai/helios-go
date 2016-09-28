@@ -25,7 +25,7 @@ func main() {
 		log.Fatalf("Could not connect to Apollo: %v", err)
 	}
 
-	c := &server.Controllers{
+	c := &server.Handlers{
 		Apollo:  apb.NewApolloClient(conn),
 		Context: context.Background(),
 	}

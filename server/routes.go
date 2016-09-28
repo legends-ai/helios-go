@@ -19,10 +19,10 @@ func Monitor(cfg *config.AppConfig) {
 	log.Fatal(http.ListenAndServe(monitorPort, monitorMux))
 }
 
-func Router(cfg *config.AppConfig, c *Controllers) {
+func Router(cfg *config.AppConfig, h *Handlers) {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/champion", c.HandleChampion)
-	mux.HandleFunc("/matchup", c.HandleMatchup)
+	mux.HandleFunc("/champion", h.HandleChampion)
+	mux.HandleFunc("/matchup", h.HandleMatchup)
 
 	port := fmt.Sprintf(":%d", cfg.Port)
 	log.Printf("Server listening on port %d", cfg.Port)

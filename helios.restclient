@@ -1,0 +1,15 @@
+:base = http://localhost:7921
+
+# Champion
+:query = ?champion=103&patch=6.18&tier=0x0050
+GET :base/champion:query
+
+# Bad Champion ID
+:query = ?champion=ahri&patch=6.18
+GET :base/champion:query
+
+# Patch Range
+:query = ?champion=103&patch=6.15-6.18
+GET :base/champion:query
+
+
