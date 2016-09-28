@@ -1,0 +1,12 @@
+package: github.com/asunaio/helios
+import:
+- package: github.com/golang/protobuf
+  subpackages:
+  - jsonpb
+  - proto
+  - ptypes/timestamp
+- package: golang.org/x/net
+  subpackages:
+  - context
+- package: google.golang.org/grpc
+  version: v1.0.1-GA

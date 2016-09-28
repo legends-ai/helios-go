@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -20,7 +19,7 @@ func main() {
 		log.Fatalf("Apollo Host not passed in via command line arguments.")
 	}
 
-	log.Printf("Connecting to Apollo on port %d", cfg.ApolloHost)
+	log.Printf("Connecting to Apollo at %v", cfg.ApolloHost)
 	conn, err := grpc.Dial(cfg.ApolloHost, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect to Apollo: %v", err)
@@ -32,5 +31,5 @@ func main() {
 	}
 
 	go server.Monitor(cfg)
-	server.Router(c)
+	server.Router(cfg, c)
 }

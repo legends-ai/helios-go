@@ -25,3 +25,6 @@ _testmain.go
 
 # Compiled proto directory
 gen-go
+
+# Vendored dependencies
+vendor
