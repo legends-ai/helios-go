@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"net/http"
 
 	apb "github.com/asunaio/helios/gen-go/asuna"
@@ -16,7 +15,7 @@ type Handlers struct {
 func (h *Handlers) HandleChampion(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 
-	championId, err := ParseChampionId(query)
+	championId, err := ParseChampionId(query, "id")
 	if err != nil {
 		Failure(w, r, err, http.StatusBadRequest)
 		return
@@ -34,18 +33,25 @@ func (h *Handlers) HandleChampion(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(championId)
-	fmt.Println(patch)
-	fmt.Println(tier)
+	region, err := ParseRegion(query)
+	if err != nil {
+		Failure(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	role, err := ParseRole(query)
+	if err != nil {
+		Failure(w, r, err, http.StatusBadRequest)
+		return
+	}
 
 	champion, err := h.Apollo.GetChampion(h.Context, &apb.GetChampionRequest{
 		ChampionId: championId,
 		Patch:      patch,
 		Tier:       tier,
-		Region:     apb.Region_NA,
-		Role:       apb.Role_JUNGLE,
+		Region:     region,
+		Role:       role,
 	})
-
 	if err != nil {
 		Failure(w, r, err, http.StatusInternalServerError)
 		return
@@ -55,5 +61,56 @@ func (h *Handlers) HandleChampion(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handlers) HandleMatchup(w http.ResponseWriter, r *http.Request) {
+	query := r.URL.Query()
 
+	focusId, err := ParseChampionId(query, "focus")
+	if err != nil {
+		Failure(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	enemyId, err := ParseChampionId(query, "enemy")
+	if err != nil {
+		Failure(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	patch, err := ParsePatch(query)
+	if err != nil {
+		Failure(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	tier, err := ParseTier(query)
+	if err != nil {
+		Failure(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	region, err := ParseRegion(query)
+	if err != nil {
+		Failure(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	role, err := ParseRole(query)
+	if err != nil {
+		Failure(w, r, err, http.StatusBadRequest)
+		return
+	}
+
+	matchup, err := h.Apollo.GetMatchup(h.Context, &apb.GetMatchupRequest{
+		FocusChampionId: focusId,
+		EnemyChampionId: enemyId,
+		Patch:           patch,
+		Tier:            tier,
+		Region:          region,
+		Role:            role,
+	})
+	if err != nil {
+		Failure(w, r, err, http.StatusInternalServerError)
+		return
+	}
+
+	Success(w, r, matchup)
 }

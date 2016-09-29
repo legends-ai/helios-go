@@ -2,16 +2,15 @@ package server
 
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"strings"
 
 	apb "github.com/asunaio/helios/gen-go/asuna"
 )
 
-func ParseChampionId(query map[string][]string) (uint32, error) {
-	if champion, ok := query["champion"]; ok {
-		championId, err := strconv.ParseUint(champion[0], 10, 32)
+func ParseChampionId(query map[string][]string, field string) (uint32, error) {
+	if id, ok := query[field]; ok {
+		championId, err := strconv.ParseUint(id[0], 10, 32)
 		if err != nil {
 			return 0, errors.New(ErrorChampionIdInvalid)
 		}
@@ -43,8 +42,6 @@ func ParseTier(query map[string][]string) (*apb.TierRange, error) {
 		if len(tiers) == 1 {
 			tiers = append(tiers, tiers[0])
 		}
-		fmt.Println(tier)
-		fmt.Println(tiers)
 		minTier, err := strconv.ParseUint(tiers[0], 0, 32)
 		if err != nil {
 			return nil, errors.New(ErrorTierInvalid)
@@ -62,4 +59,61 @@ func ParseTier(query map[string][]string) (*apb.TierRange, error) {
 	}
 
 	return nil, errors.New(ErrorTierNotFound)
+}
+
+func ParseRegion(query map[string][]string) (apb.Region, error) {
+	if region, ok := query["region"]; ok {
+		switch region[0] {
+		case "BR":
+			return apb.Region_BR, nil
+		case "EUNE":
+			return apb.Region_EUNE, nil
+		case "EUW":
+			return apb.Region_EUW, nil
+		case "JP":
+			return apb.Region_JP, nil
+		case "KR":
+			return apb.Region_KR, nil
+		case "LAN":
+			return apb.Region_LAN, nil
+		case "LAS":
+			return apb.Region_LAS, nil
+		case "NA":
+			return apb.Region_NA, nil
+		case "OCE":
+			return apb.Region_OCE, nil
+		case "TR":
+			return apb.Region_TR, nil
+		case "RU":
+			return apb.Region_RU, nil
+		case "PBE":
+			return apb.Region_PBE, nil
+		case "GLOBAL":
+			return apb.Region_GLOBAL, nil
+		default:
+			return apb.Region_UNKNOWN_REGION, errors.New(ErrorRegionInvalid)
+		}
+	}
+
+	return apb.Region_UNKNOWN_REGION, errors.New(ErrorRegionNotFound)
+}
+
+func ParseRole(query map[string][]string) (apb.Role, error) {
+	if role, ok := query["role"]; ok {
+		switch role[0] {
+		case "TOP":
+			return apb.Role_TOP, nil
+		case "JUNGLE":
+			return apb.Role_JUNGLE, nil
+		case "MID":
+			return apb.Role_MID, nil
+		case "BOT":
+			return apb.Role_BOT, nil
+		case "SUPPORT":
+			return apb.Role_SUPPORT, nil
+		default:
+			return apb.Role_UNKNOWN_ROLE, errors.New(ErrorRoleInvalid)
+		}
+	}
+	return apb.Role_UNKNOWN_ROLE, errors.New(ErrorRoleNotFound)
 }
