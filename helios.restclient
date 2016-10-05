@@ -1,11 +1,11 @@
 :base = http://localhost:7921
 
 # Ahri
-:id = id=103
+:id = 103
 # Caitlyn
-:focus = focus=51
+:focus = 51
 # Ezreal
-:enemy = enemy=81
+:enemy = 81
 
 :patch = patch=6.18
 :patchRange = patch=6.16-6.18
@@ -16,10 +16,10 @@
 :bot = role=BOT
 
 # Champion
-:query = ?:id&:patchRange&:tierRange&:region&:mid
-GET :base/champion:query
+:query = ?:patchRange&:tierRange&:region&:mid
+GET :base/champion/:id:query
 
 # Matchup
-:query = ?:focus&:enemy&:patchRange&:tierRange&:region&:bot
-GET :base/matchup:query
+:query = ?:patchRange&:tierRange&:region&:bot
+GET :base/matchup/:focus/:enemy:query
 
