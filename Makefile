@@ -3,6 +3,9 @@ all: clean build
 clean:
 	rm -f helios
 
+cleanall:
+	rm -rf helios vendor
+
 build: genproto
 	go build .
 

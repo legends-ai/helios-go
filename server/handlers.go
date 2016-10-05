@@ -43,12 +43,19 @@ func (h *Handlers) HandleChampion(ctx *iris.Context) {
 		return
 	}
 
+	mpr, err := ParseMinPlayRate(ctx)
+	if err != nil {
+		Failure(ctx, err, iris.StatusBadRequest)
+		return
+	}
+
 	champion, err := h.Apollo.GetChampion(h.Context, &apb.GetChampionRequest{
-		ChampionId: championId,
-		Patch:      patch,
-		Tier:       tier,
-		Region:     region,
-		Role:       role,
+		ChampionId:  championId,
+		Patch:       patch,
+		Tier:        tier,
+		Region:      region,
+		Role:        role,
+		MinPlayRate: mpr,
 	})
 	if err != nil {
 		Failure(ctx, err, iris.StatusInternalServerError)
@@ -95,6 +102,12 @@ func (h *Handlers) HandleMatchup(ctx *iris.Context) {
 		return
 	}
 
+	mpr, err := ParseMinPlayRate(ctx)
+	if err != nil {
+		Failure(ctx, err, iris.StatusBadRequest)
+		return
+	}
+
 	matchup, err := h.Apollo.GetMatchup(h.Context, &apb.GetMatchupRequest{
 		FocusChampionId: focusId,
 		EnemyChampionId: enemyId,
@@ -102,6 +115,7 @@ func (h *Handlers) HandleMatchup(ctx *iris.Context) {
 		Tier:            tier,
 		Region:          region,
 		Role:            role,
+		MinPlayRate:     mpr,
 	})
 	if err != nil {
 		Failure(ctx, err, iris.StatusInternalServerError)

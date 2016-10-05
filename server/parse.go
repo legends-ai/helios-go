@@ -114,3 +114,13 @@ func ParseRole(ctx *iris.Context) (apb.Role, error) {
 		return apb.Role_UNKNOWN_ROLE, errors.New(ErrorInvalidRole)
 	}
 }
+
+func ParseMinPlayRate(ctx *iris.Context) (float64, error) {
+	raw := ctx.URLParam("min_play_rate")
+	mpr, err := strconv.ParseFloat(raw, 64)
+	if err != nil {
+		return 0, errors.New(ErrorInvalidMinPlayRate)
+	}
+	return mpr, nil
+
+}
