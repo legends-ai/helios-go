@@ -18,7 +18,7 @@ func Monitor(cfg *config.AppConfig) {
 
 func Router(cfg *config.AppConfig, h *Handlers) {
 	server := iris.New()
-	server.Get("/champion", h.HandleChampion)
-	server.Get("/matchup", h.HandleMatchup)
+	server.Get("/champion/:id", h.HandleChampion)
+	server.Get("/matchup/:focus/:enemy", h.HandleMatchup)
 	server.Listen(fmt.Sprintf(":%d", cfg.Port))
 }

@@ -11,7 +11,7 @@ import (
 )
 
 func ParseChampionId(ctx *iris.Context, field string) (uint32, error) {
-	id := ctx.URLParam(field)
+	id := ctx.Param(field)
 	championId, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
 		switch field {
