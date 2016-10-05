@@ -6,13 +6,13 @@ clean:
 build: genproto
 	go build .
 
-syncbuild: syncproto genproto
+syncbuild: syncmodule genproto
 	go build .
 
 genproto:
 	./proto/gen_go.sh
 
-syncproto:
+syncmodule:
 	cd proto && git pull origin master
 
 init:
