@@ -25,11 +25,11 @@ func main() {
 		log.Fatalf("Could not connect to Apollo: %v", err)
 	}
 
-	c := &server.Handlers{
+	h := &server.Handlers{
 		Apollo:  apb.NewApolloClient(conn),
 		Context: context.Background(),
 	}
 
 	go server.Monitor(cfg)
-	server.Router(cfg, c)
+	server.Router(cfg, h)
 }

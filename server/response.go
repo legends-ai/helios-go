@@ -2,46 +2,33 @@ package server
 
 import (
 	"bytes"
-	"encoding/json"
 	"log"
-	"net/http"
 
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
+	"github.com/kataras/iris"
 )
 
-type failure struct {
-	Code    int
-	Message string
-	Method  string
-	Path    string
-}
-
-func Success(w http.ResponseWriter, r *http.Request, pb proto.Message) {
+func Success(ctx *iris.Context, pb proto.Message) {
 	var jsonb bytes.Buffer
 	if err := (&jsonpb.Marshaler{
 		EnumsAsInts:  false,
 		EmitDefaults: true,
 		OrigName:     false,
 	}).Marshal(&jsonb, pb); err != nil {
-		Failure(w, r, err, http.StatusInternalServerError)
+		Failure(ctx, err, iris.StatusInternalServerError)
 	}
-	w.Write(jsonb.Bytes())
+	ctx.Write(jsonb.String())
 }
 
-func Failure(w http.ResponseWriter, r *http.Request, e error, code int) {
-	log.Printf("[ERROR] %s %s: %v", r.Method, r.URL.Path, e)
-	w.WriteHeader(code)
-	jsonb, err := json.Marshal(failure{
-		Code:    code,
-		Message: e.Error(),
-		Method:  r.Method,
-		Path:    r.URL.Path,
+func Failure(ctx *iris.Context, e error, status int) {
+	log.Printf("[ERROR] %s %s: %v", ctx.MethodString(), ctx.PathString(), e)
+	ctx.JSON(status, iris.Map{
+		"status":  status,
+		"message": e.Error(),
+		"method":  ctx.MethodString(),
+		"path":    ctx.PathString(),
+		"query":   ctx.URLParams(),
+		"uri":     ctx.RequestPath(false),
 	})
-
-	if err != nil {
-		w.Write([]byte("{ 'Message': 'JSON Marshal Failure.'}"))
-	} else {
-		w.Write(jsonb)
-	}
 }

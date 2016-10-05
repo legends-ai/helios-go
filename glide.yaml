@@ -10,3 +10,7 @@ import:
   - context
 - package: google.golang.org/grpc
   version: v1.0.1-GA
+- package: github.com/kataras/iris
+  version: v4.4.6
+  subpackages:
+  - iris

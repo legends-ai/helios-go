@@ -1,10 +1,10 @@
 package server
 
 import (
-	"net/http"
+	"github.com/kataras/iris"
+	"golang.org/x/net/context"
 
 	apb "github.com/asunaio/helios/gen-go/asuna"
-	"golang.org/x/net/context"
 )
 
 type Handlers struct {
@@ -12,36 +12,34 @@ type Handlers struct {
 	Context context.Context
 }
 
-func (h *Handlers) HandleChampion(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
-
-	championId, err := ParseChampionId(query, "id")
+func (h *Handlers) HandleChampion(ctx *iris.Context) {
+	championId, err := ParseChampionId(ctx, "id")
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	patch, err := ParsePatch(query)
+	patch, err := ParsePatch(ctx)
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	tier, err := ParseTier(query)
+	tier, err := ParseTier(ctx)
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	region, err := ParseRegion(query)
+	region, err := ParseRegion(ctx)
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	role, err := ParseRole(query)
+	role, err := ParseRole(ctx)
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
@@ -53,49 +51,47 @@ func (h *Handlers) HandleChampion(w http.ResponseWriter, r *http.Request) {
 		Role:       role,
 	})
 	if err != nil {
-		Failure(w, r, err, http.StatusInternalServerError)
+		Failure(ctx, err, iris.StatusInternalServerError)
 		return
 	}
 
-	Success(w, r, champion)
+	Success(ctx, champion)
 }
 
-func (h *Handlers) HandleMatchup(w http.ResponseWriter, r *http.Request) {
-	query := r.URL.Query()
-
-	focusId, err := ParseChampionId(query, "focus")
+func (h *Handlers) HandleMatchup(ctx *iris.Context) {
+	focusId, err := ParseChampionId(ctx, "focus")
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	enemyId, err := ParseChampionId(query, "enemy")
+	enemyId, err := ParseChampionId(ctx, "enemy")
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	patch, err := ParsePatch(query)
+	patch, err := ParsePatch(ctx)
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	tier, err := ParseTier(query)
+	tier, err := ParseTier(ctx)
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	region, err := ParseRegion(query)
+	region, err := ParseRegion(ctx)
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
-	role, err := ParseRole(query)
+	role, err := ParseRole(ctx)
 	if err != nil {
-		Failure(w, r, err, http.StatusBadRequest)
+		Failure(ctx, err, iris.StatusBadRequest)
 		return
 	}
 
@@ -108,9 +104,9 @@ func (h *Handlers) HandleMatchup(w http.ResponseWriter, r *http.Request) {
 		Role:            role,
 	})
 	if err != nil {
-		Failure(w, r, err, http.StatusInternalServerError)
+		Failure(ctx, err, iris.StatusInternalServerError)
 		return
 	}
 
-	Success(w, r, matchup)
+	Success(ctx, matchup)
 }

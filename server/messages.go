@@ -1,11 +1,9 @@
 package server
 
-const ErrorChampionIdInvalid = "Champion ID must be an integer"
-const ErrorChampionIdNotFound = "Champion ID not included in query parameters"
-const ErrorPatchNotFound = "Patch not included in query parameters"
-const ErrorTierInvalid = "Tier must be an integer or range of integers delmited by '-' in hexadecimal format"
-const ErrorTierNotFound = "Tier not included in query parameters"
-const ErrorRegionInvalid = "Region must be a valid League of Legends region"
-const ErrorRegionNotFound = "Region not included in query parameters"
-const ErrorRoleInvalid = "Role must be a valid League of Legends role"
-const ErrorRoleNotFound = "Role not included in query parameters"
+const ErrorInvalidChampionId = "Champion ID must be an integer"
+const ErrorInvalidFocusId = "Focus Champion ID must be an integer"
+const ErrorInvalidEnemyId = "Enemy Champion ID must be an integer"
+const ErrorInvalidPatch = "Patch must be a non-empty string"
+const ErrorInvalidTier = "Tier must be an integer or range of integers delmited by '-' in hexadecimal format"
+const ErrorInvalidRegion = "Region must be a valid League of Legends region"
+const ErrorInvalidRole = "Role must be a valid League of Legends role"

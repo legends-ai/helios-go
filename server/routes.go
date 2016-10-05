@@ -2,29 +2,23 @@ package server
 
 import (
 	"fmt"
-	"log"
-	"net/http"
+
+	"github.com/kataras/iris"
 
 	"github.com/asunaio/helios/config"
 )
 
 func Monitor(cfg *config.AppConfig) {
-	monitorMux := http.NewServeMux()
-	monitorMux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "OK")
+	monitor := iris.New()
+	monitor.Get("/health", func(ctx *iris.Context) {
+		ctx.Write("OK")
 	})
-	monitorPort := fmt.Sprintf(":%d", cfg.MonitorPort)
-	log.Printf("Monitor listening on port %d", cfg.MonitorPort)
-	log.Fatal(http.ListenAndServe(monitorPort, monitorMux))
+	monitor.Listen(fmt.Sprintf(":%d", cfg.MonitorPort))
 }
 
 func Router(cfg *config.AppConfig, h *Handlers) {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/champion", h.HandleChampion)
-	mux.HandleFunc("/matchup", h.HandleMatchup)
-
-	port := fmt.Sprintf(":%d", cfg.Port)
-	log.Printf("Server listening on port %d", cfg.Port)
-	log.Fatal(http.ListenAndServe(port, mux))
+	server := iris.New()
+	server.Get("/champion", h.HandleChampion)
+	server.Get("/matchup", h.HandleMatchup)
+	server.Listen(fmt.Sprintf(":%d", cfg.Port))
 }
