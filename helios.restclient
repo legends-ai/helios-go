@@ -1,4 +1,4 @@
-:base = http://localhost:7921
+:base = http://0.0.0.0:7921
 
 # Ahri
 :id = 103
@@ -14,12 +14,13 @@
 :region = region=NA
 :mid = role=MID
 :bot = role=BOT
+:mpr = min_play_rate=.05
 
 # Champion
-:query = ?:patchRange&:tierRange&:region&:mid
+:query = ?:patchRange&:tierRange&:region&:mid&:mpr
 GET :base/champion/:id:query
 
 # Matchup
-:query = ?:patchRange&:tierRange&:region&:bot
+:query = ?:patchRange&:tierRange&:region&:bot&:mpr
 GET :base/matchup/:focus/:enemy:query
 
