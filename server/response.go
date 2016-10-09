@@ -18,6 +18,7 @@ func Success(ctx *iris.Context, pb proto.Message) {
 	}).Marshal(&jsonb, pb); err != nil {
 		Failure(ctx, err, iris.StatusInternalServerError)
 	}
+	ctx.SetHeader("Content-Type", "application/json")
 	ctx.Write(jsonb.String())
 }
 
