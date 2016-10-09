@@ -94,7 +94,7 @@ func ParseRegion(ctx *iris.Context) (apb.Region, error) {
 	case "GLOBAL":
 		return apb.Region_GLOBAL, nil
 	default:
-		return apb.Region_UNKNOWN_REGION, errors.New(ErrorInvalidRegion)
+		return apb.Region_UNDEFINED_REGION, errors.New(ErrorInvalidRegion)
 	}
 }
 
@@ -111,7 +111,7 @@ func ParseRole(ctx *iris.Context) (apb.Role, error) {
 	case "SUPPORT":
 		return apb.Role_SUPPORT, nil
 	default:
-		return apb.Role_UNKNOWN_ROLE, errors.New(ErrorInvalidRole)
+		return apb.Role_UNDEFINED_ROLE, errors.New(ErrorInvalidRole)
 	}
 }
 
