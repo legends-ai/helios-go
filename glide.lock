@@ -1,0 +1,44 @@
+hash: a2c8fbf21f3e6c238ca092d9aaf51cd5b17ff02589695d5ba8b72d99e8fdcb30
+updated: 2016-10-23T18:35:24.571265417-05:00
+imports:
+- name: github.com/gin-gonic/gin
+  version: 3900df04d2a88e22beaf6a2970c63648b9e1b0e1
+  subpackages:
+  - binding
+  - render
+- name: github.com/golang/protobuf
+  version: 1f49d83d9aa00e6ce4fc8258c71cc7786aec968a
+  subpackages:
+  - jsonpb
+  - proto
+  - ptypes/timestamp
+- name: github.com/manucorporat/sse
+  version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
+- name: golang.org/x/net
+  version: c33d37840d93fc75251f49ab83c5fc8b2faea5e8
+  subpackages:
+  - context
+  - http2
+  - http2/hpack
+  - idna
+  - internal/timeseries
+  - lex/httplex
+  - trace
+- name: google.golang.org/grpc
+  version: b7f1379d3cbbbeb2ca3405852012e237aa05459e
+  subpackages:
+  - codes
+  - credentials
+  - grpclog
+  - internal
+  - metadata
+  - naming
+  - peer
+  - transport
+- name: gopkg.in/gin-gonic/gin.v1
+  version: 2dae550eb5392006a4582ce9c90016a9b5a74e8b
+- name: gopkg.in/go-playground/validator.v8
+  version: c193cecd124b5cc722d7ee5538e945bdb3348435
+- name: gopkg.in/yaml.v2
+  version: a5b47d31c556af34a302ce5d659e6fea44d90de0
+testImports: []
