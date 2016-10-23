@@ -1,8 +1,9 @@
 package server
 
 import (
-	"github.com/kataras/iris"
 	"golang.org/x/net/context"
+
+	"gopkg.in/gin-gonic/gin.v1"
 
 	apb "github.com/asunaio/helios/gen-go/asuna"
 )
@@ -12,40 +13,40 @@ type Handlers struct {
 	Context context.Context
 }
 
-func (h *Handlers) HandleChampion(ctx *iris.Context) {
+func (h *Handlers) HandleChampion(ctx *gin.Context) {
 	championId, err := ParseChampionId(ctx, "id")
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	patch, err := ParsePatch(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	tier, err := ParseTier(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	region, err := ParseRegion(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	role, err := ParseRole(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	mpr, err := ParseMinPlayRate(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
@@ -58,53 +59,53 @@ func (h *Handlers) HandleChampion(ctx *iris.Context) {
 		MinPlayRate: mpr,
 	})
 	if err != nil {
-		Failure(ctx, err, iris.StatusInternalServerError)
+		Failure(ctx, err, http.StatusInternalServerError)
 		return
 	}
 
 	Success(ctx, champion)
 }
 
-func (h *Handlers) HandleMatchup(ctx *iris.Context) {
+func (h *Handlers) HandleMatchup(ctx *http.Context) {
 	focusId, err := ParseChampionId(ctx, "focus")
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	enemyId, err := ParseChampionId(ctx, "enemy")
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	patch, err := ParsePatch(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	tier, err := ParseTier(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	region, err := ParseRegion(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	role, err := ParseRole(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
 	mpr, err := ParseMinPlayRate(ctx)
 	if err != nil {
-		Failure(ctx, err, iris.StatusBadRequest)
+		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
@@ -118,7 +119,7 @@ func (h *Handlers) HandleMatchup(ctx *iris.Context) {
 		MinPlayRate:     mpr,
 	})
 	if err != nil {
-		Failure(ctx, err, iris.StatusInternalServerError)
+		Failure(ctx, err, http.StatusInternalServerError)
 		return
 	}
 

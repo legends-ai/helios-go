@@ -3,22 +3,22 @@ package server
 import (
 	"fmt"
 
-	"github.com/kataras/iris"
+	"gopkg.in/gin-gonic/gin.v1"
 
 	"github.com/asunaio/helios/config"
 )
 
 func Monitor(cfg *config.AppConfig) {
-	monitor := iris.New()
-	monitor.Get("/health", func(ctx *iris.Context) {
+	monitor := gin.New()
+	monitor.GET("/health", func(ctx *gin.Context) {
 		ctx.Write("OK")
 	})
-	monitor.Listen(fmt.Sprintf(":%d", cfg.MonitorPort))
+	monitor.Run(fmt.Sprintf(":%d", cfg.MonitorPort))
 }
 
 func Router(cfg *config.AppConfig, h *Handlers) {
-	server := iris.New()
-	server.Get("/champion/:id", h.HandleChampion)
-	server.Get("/matchup/:focus/:enemy", h.HandleMatchup)
-	server.Listen(fmt.Sprintf(":%d", cfg.Port))
+	server := gin.New()
+	server.GET("/champion/:id", h.HandleChampion)
+	server.GET("/matchup/:focus/:enemy", h.HandleMatchup)
+	server.Run(fmt.Sprintf(":%d", cfg.Port))
 }

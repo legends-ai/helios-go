@@ -5,12 +5,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/kataras/iris"
+	"gopkg.in/gin-gonic/gin.v1"
 
 	apb "github.com/asunaio/helios/gen-go/asuna"
 )
 
-func ParseChampionId(ctx *iris.Context, field string) (uint32, error) {
+func ParseChampionId(ctx *gin.Context, field string) (uint32, error) {
 	id := ctx.Param(field)
 	championId, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
@@ -26,8 +26,8 @@ func ParseChampionId(ctx *iris.Context, field string) (uint32, error) {
 	return uint32(championId), nil
 }
 
-func ParsePatch(ctx *iris.Context) (*apb.PatchRange, error) {
-	patch := ctx.URLParam("patch")
+func ParsePatch(ctx *gin.Context) (*apb.PatchRange, error) {
+	patch := ctx.Query("patch")
 	patches := strings.Split(patch, "-")
 	if len(patches) == 1 {
 		patches = append(patches, patches[0])
@@ -43,8 +43,8 @@ func ParsePatch(ctx *iris.Context) (*apb.PatchRange, error) {
 	}, nil
 }
 
-func ParseTier(ctx *iris.Context) (*apb.TierRange, error) {
-	tier := ctx.URLParam("tier")
+func ParseTier(ctx *gin.Context) (*apb.TierRange, error) {
+	tier := ctx.Query("tier")
 	tiers := strings.Split(tier, "-")
 	if len(tiers) == 1 {
 		tiers = append(tiers, tiers[0])
@@ -65,8 +65,8 @@ func ParseTier(ctx *iris.Context) (*apb.TierRange, error) {
 	}, nil
 }
 
-func ParseRegion(ctx *iris.Context) (apb.Region, error) {
-	switch ctx.URLParam("region") {
+func ParseRegion(ctx *gin.Context) (apb.Region, error) {
+	switch ctx.Query("region") {
 	case "BR":
 		return apb.Region_BR, nil
 	case "EUNE":
@@ -98,8 +98,8 @@ func ParseRegion(ctx *iris.Context) (apb.Region, error) {
 	}
 }
 
-func ParseRole(ctx *iris.Context) (apb.Role, error) {
-	switch ctx.URLParam("role") {
+func ParseRole(ctx *gin.Context) (apb.Role, error) {
+	switch ctx.Query("role") {
 	case "TOP":
 		return apb.Role_TOP, nil
 	case "JUNGLE":
@@ -115,8 +115,8 @@ func ParseRole(ctx *iris.Context) (apb.Role, error) {
 	}
 }
 
-func ParseMinPlayRate(ctx *iris.Context) (float64, error) {
-	raw := ctx.URLParam("min_play_rate")
+func ParseMinPlayRate(ctx *gin.Context) (float64, error) {
+	raw := ctx.Query("min_play_rate")
 	mpr, err := strconv.ParseFloat(raw, 64)
 	if err != nil {
 		return 0, errors.New(ErrorInvalidMinPlayRate)
