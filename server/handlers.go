@@ -67,7 +67,7 @@ func (h *Handlers) HandleChampion(ctx *gin.Context) {
 	Success(ctx, champion)
 }
 
-func (h *Handlers) HandleMatchup(ctx *http.Context) {
+func (h *Handlers) HandleMatchup(ctx *gin.Context) {
 	focusId, err := ParseChampionId(ctx, "focus")
 	if err != nil {
 		Failure(ctx, err, http.StatusBadRequest)

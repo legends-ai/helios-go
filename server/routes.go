@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"net/http"
 
 	"gopkg.in/gin-gonic/gin.v1"
 
@@ -11,7 +12,7 @@ import (
 func Monitor(cfg *config.AppConfig) {
 	monitor := gin.New()
 	monitor.GET("/health", func(ctx *gin.Context) {
-		ctx.Write("OK")
+		ctx.String(http.StatusOK, "OK")
 	})
 	monitor.Run(fmt.Sprintf(":%d", cfg.MonitorPort))
 }
