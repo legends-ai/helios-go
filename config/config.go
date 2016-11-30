@@ -3,13 +3,13 @@ package config
 import "flag"
 
 type AppConfig struct {
-	ApolloHost  string
+	LucindaHost string
 	Port        int
 	MonitorPort int
 }
 
 var (
-	apolloHost  = flag.String("apollo_host", "", "Apollo Host")
+	lucindaHost = flag.String("lucinda_host", "localhost:45045", "Lucinda Host")
 	port        = flag.Int("port", 7921, "Host Port")
 	monitorPort = flag.Int("monitor_port", 7922, "Monitoring Port")
 )
@@ -17,7 +17,7 @@ var (
 func Initialize() *AppConfig {
 	flag.Parse()
 	return &AppConfig{
-		ApolloHost:  *apolloHost,
+		LucindaHost: *lucindaHost,
 		Port:        *port,
 		MonitorPort: *monitorPort,
 	}

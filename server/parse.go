@@ -10,7 +10,7 @@ import (
 	apb "github.com/asunaio/helios/gen-go/asuna"
 )
 
-func ParseChampionId(ctx *gin.Context, field string) (uint32, error) {
+func parseChampionId(ctx *gin.Context, field string) (uint32, error) {
 	id := ctx.Param(field)
 	championId, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
@@ -26,7 +26,7 @@ func ParseChampionId(ctx *gin.Context, field string) (uint32, error) {
 	return uint32(championId), nil
 }
 
-func ParsePatch(ctx *gin.Context) (*apb.PatchRange, error) {
+func parsePatch(ctx *gin.Context) *apb.PatchRange {
 	patch := ctx.Query("patch")
 	patches := strings.Split(patch, "-")
 	if len(patches) == 1 {
@@ -34,16 +34,16 @@ func ParsePatch(ctx *gin.Context) (*apb.PatchRange, error) {
 	}
 
 	if patches[0] == "" || patches[1] == "" {
-		return nil, errors.New(ErrorInvalidPatch)
+		return nil
 	}
 
 	return &apb.PatchRange{
 		Min: patches[0],
 		Max: patches[1],
-	}, nil
+	}
 }
 
-func ParseTier(ctx *gin.Context) (*apb.TierRange, error) {
+func parseTier(ctx *gin.Context) (*apb.TierRange, error) {
 	tier := ctx.Query("tier")
 	tiers := strings.Split(tier, "-")
 	if len(tiers) == 1 {
@@ -65,7 +65,7 @@ func ParseTier(ctx *gin.Context) (*apb.TierRange, error) {
 	}, nil
 }
 
-func ParseRegion(ctx *gin.Context) (apb.Region, error) {
+func parseRegion(ctx *gin.Context) (apb.Region, error) {
 	switch ctx.Query("region") {
 	case "BR":
 		return apb.Region_BR, nil
@@ -98,29 +98,29 @@ func ParseRegion(ctx *gin.Context) (apb.Region, error) {
 	}
 }
 
-func ParseRole(ctx *gin.Context) (apb.Role, error) {
+func parseRole(ctx *gin.Context) apb.Role {
 	switch ctx.Query("role") {
 	case "TOP":
-		return apb.Role_TOP, nil
+		return apb.Role_TOP
 	case "JUNGLE":
-		return apb.Role_JUNGLE, nil
+		return apb.Role_JUNGLE
 	case "MID":
-		return apb.Role_MID, nil
+		return apb.Role_MID
 	case "BOT":
-		return apb.Role_BOT, nil
+		return apb.Role_BOT
 	case "SUPPORT":
-		return apb.Role_SUPPORT, nil
+		return apb.Role_SUPPORT
 	default:
-		return apb.Role_UNDEFINED_ROLE, errors.New(ErrorInvalidRole)
+		return apb.Role_UNDEFINED_ROLE
 	}
 }
 
-func ParseMinPlayRate(ctx *gin.Context) (float64, error) {
+func parseMinPlayRate(ctx *gin.Context) float64 {
 	raw := ctx.Query("min_play_rate")
 	mpr, err := strconv.ParseFloat(raw, 64)
 	if err != nil {
-		return 0, errors.New(ErrorInvalidMinPlayRate)
+		return 0.05
 	}
-	return mpr, nil
+	return mpr
 
 }

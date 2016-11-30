@@ -10,54 +10,36 @@ import (
 )
 
 type Handlers struct {
-	Apollo  apb.ApolloClient
+	Lucinda apb.LucindaClient
 	Context context.Context
 }
 
 func (h *Handlers) HandleChampion(ctx *gin.Context) {
-	championId, err := ParseChampionId(ctx, "id")
+	championId, err := parseChampionId(ctx, "id")
 	if err != nil {
 		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
-	patch, err := ParsePatch(ctx)
+	tier, err := parseTier(ctx)
 	if err != nil {
 		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
-	tier, err := ParseTier(ctx)
+	region, err := parseRegion(ctx)
 	if err != nil {
 		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
-	region, err := ParseRegion(ctx)
-	if err != nil {
-		Failure(ctx, err, http.StatusBadRequest)
-		return
-	}
-
-	role, err := ParseRole(ctx)
-	if err != nil {
-		Failure(ctx, err, http.StatusBadRequest)
-		return
-	}
-
-	mpr, err := ParseMinPlayRate(ctx)
-	if err != nil {
-		Failure(ctx, err, http.StatusBadRequest)
-		return
-	}
-
-	champion, err := h.Apollo.GetChampion(h.Context, &apb.GetChampionRequest{
+	champion, err := h.Lucinda.GetChampion(h.Context, &apb.LucindaRpc_GetChampionRequest{
 		ChampionId:  championId,
-		Patch:       patch,
+		Patch:       parsePatch(ctx),
 		Tier:        tier,
 		Region:      region,
-		Role:        role,
-		MinPlayRate: mpr,
+		Role:        parseRole(ctx),
+		MinPlayRate: parseMinPlayRate(ctx),
 	})
 	if err != nil {
 		Failure(ctx, err, http.StatusInternalServerError)
@@ -68,56 +50,38 @@ func (h *Handlers) HandleChampion(ctx *gin.Context) {
 }
 
 func (h *Handlers) HandleMatchup(ctx *gin.Context) {
-	focusId, err := ParseChampionId(ctx, "focus")
+	focusId, err := parseChampionId(ctx, "focus")
 	if err != nil {
 		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
-	enemyId, err := ParseChampionId(ctx, "enemy")
+	enemyId, err := parseChampionId(ctx, "enemy")
 	if err != nil {
 		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
-	patch, err := ParsePatch(ctx)
+	tier, err := parseTier(ctx)
 	if err != nil {
 		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
-	tier, err := ParseTier(ctx)
+	region, err := parseRegion(ctx)
 	if err != nil {
 		Failure(ctx, err, http.StatusBadRequest)
 		return
 	}
 
-	region, err := ParseRegion(ctx)
-	if err != nil {
-		Failure(ctx, err, http.StatusBadRequest)
-		return
-	}
-
-	role, err := ParseRole(ctx)
-	if err != nil {
-		Failure(ctx, err, http.StatusBadRequest)
-		return
-	}
-
-	mpr, err := ParseMinPlayRate(ctx)
-	if err != nil {
-		Failure(ctx, err, http.StatusBadRequest)
-		return
-	}
-
-	matchup, err := h.Apollo.GetMatchup(h.Context, &apb.GetMatchupRequest{
+	matchup, err := h.Lucinda.GetMatchup(h.Context, &apb.LucindaRpc_GetMatchupRequest{
 		FocusChampionId: focusId,
 		EnemyChampionId: enemyId,
-		Patch:           patch,
+		Patch:           parsePatch(ctx),
 		Tier:            tier,
 		Region:          region,
-		Role:            role,
-		MinPlayRate:     mpr,
+		Role:            parseRole(ctx),
+		MinPlayRate:     parseMinPlayRate(ctx),
 	})
 	if err != nil {
 		Failure(ctx, err, http.StatusInternalServerError)

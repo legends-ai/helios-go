@@ -15,18 +15,16 @@ func main() {
 	cfg := config.Initialize()
 	if cfg == nil {
 		log.Fatalf("Helios failed to initialize config.")
-	} else if cfg.ApolloHost == "" {
-		log.Fatalf("Apollo Host not passed in via command line arguments.")
 	}
 
-	log.Printf("Connecting to Apollo at %v", cfg.ApolloHost)
-	conn, err := grpc.Dial(cfg.ApolloHost, grpc.WithInsecure())
+	log.Printf("Connecting to Lucinda at %v", cfg.LucindaHost)
+	conn, err := grpc.Dial(cfg.LucindaHost, grpc.WithInsecure())
 	if err != nil {
-		log.Fatalf("Could not connect to Apollo: %v", err)
+		log.Fatalf("Could not connect to Lucinda: %v", err)
 	}
 
 	h := &server.Handlers{
-		Apollo:  apb.NewApolloClient(conn),
+		Lucinda: apb.NewLucindaClient(conn),
 		Context: context.Background(),
 	}
 
