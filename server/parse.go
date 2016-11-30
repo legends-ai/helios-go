@@ -66,53 +66,15 @@ func parseTier(ctx *gin.Context) (*apb.TierRange, error) {
 }
 
 func parseRegion(ctx *gin.Context) (apb.Region, error) {
-	switch ctx.Query("region") {
-	case "BR":
-		return apb.Region_BR, nil
-	case "EUNE":
-		return apb.Region_EUNE, nil
-	case "EUW":
-		return apb.Region_EUW, nil
-	case "JP":
-		return apb.Region_JP, nil
-	case "KR":
-		return apb.Region_KR, nil
-	case "LAN":
-		return apb.Region_LAN, nil
-	case "LAS":
-		return apb.Region_LAS, nil
-	case "NA":
-		return apb.Region_NA, nil
-	case "OCE":
-		return apb.Region_OCE, nil
-	case "TR":
-		return apb.Region_TR, nil
-	case "RU":
-		return apb.Region_RU, nil
-	case "PBE":
-		return apb.Region_PBE, nil
-	case "GLOBAL":
-		return apb.Region_GLOBAL, nil
-	default:
-		return apb.Region_UNDEFINED_REGION, errors.New(ErrorInvalidRegion)
+	region := apb.Region(apb.Region_value[ctx.Query("region")])
+	if region == apb.Region_UNDEFINED_REGION {
+		return region, errors.New(ErrorInvalidRegion)
 	}
+	return region, nil
 }
 
 func parseRole(ctx *gin.Context) apb.Role {
-	switch ctx.Query("role") {
-	case "TOP":
-		return apb.Role_TOP
-	case "JUNGLE":
-		return apb.Role_JUNGLE
-	case "MID":
-		return apb.Role_MID
-	case "BOT":
-		return apb.Role_BOT
-	case "SUPPORT":
-		return apb.Role_SUPPORT
-	default:
-		return apb.Role_UNDEFINED_ROLE
-	}
+	return apb.Role(apb.Role_value[ctx.Query("role")])
 }
 
 func parseMinPlayRate(ctx *gin.Context) float64 {
@@ -122,5 +84,8 @@ func parseMinPlayRate(ctx *gin.Context) float64 {
 		return 0.05
 	}
 	return mpr
+}
 
+func parseLocale(ctx *gin.Context) apb.Locale {
+	return apb.Locale(apb.Locale_value[ctx.Query("locale")])
 }

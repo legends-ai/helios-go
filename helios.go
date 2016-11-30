@@ -18,13 +18,20 @@ func main() {
 	}
 
 	log.Printf("Connecting to Lucinda at %v", cfg.LucindaHost)
-	conn, err := grpc.Dial(cfg.LucindaHost, grpc.WithInsecure())
+	lucindaConn, err := grpc.Dial(cfg.LucindaHost, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect to Lucinda: %v", err)
 	}
 
+	log.Printf("Connecting to Vulgate at %v", cfg.VulgateHost)
+	vulgateConn, err := grpc.Dial(cfg.VulgateHost, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Could not connect to Vulgate: %v", err)
+	}
+
 	h := &server.Handlers{
-		Lucinda: apb.NewLucindaClient(conn),
+		Lucinda: apb.NewLucindaClient(lucindaConn),
+		Vulgate: apb.NewVulgateClient(vulgateConn),
 		Context: context.Background(),
 	}
 

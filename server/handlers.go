@@ -11,6 +11,7 @@ import (
 
 type Handlers struct {
 	Lucinda apb.LucindaClient
+	Vulgate apb.VulgateClient
 	Context context.Context
 }
 
@@ -41,6 +42,7 @@ func (h *Handlers) HandleChampion(ctx *gin.Context) {
 		Role:        parseRole(ctx),
 		MinPlayRate: parseMinPlayRate(ctx),
 	})
+
 	if err != nil {
 		Failure(ctx, err, http.StatusInternalServerError)
 		return
@@ -83,10 +85,46 @@ func (h *Handlers) HandleMatchup(ctx *gin.Context) {
 		Role:            parseRole(ctx),
 		MinPlayRate:     parseMinPlayRate(ctx),
 	})
+
 	if err != nil {
 		Failure(ctx, err, http.StatusInternalServerError)
 		return
 	}
 
 	Success(ctx, matchup)
+}
+
+func (h *Handlers) HandleStaticEntry(ctx *gin.Context) {
+	region, err := parseRegion(ctx)
+	if err != nil {
+		Failure(ctx, err, http.StatusBadRequest)
+		return
+	}
+
+	context := &apb.VulgateRpc_Context{
+		Locale: parseLocale(ctx),
+		Region: region,
+	}
+
+	if ctx.Query("version") != "" {
+		context.Release = &apb.VulgateRpc_Context_Version{
+			Version: ctx.Query("version"),
+		}
+	} else if ctx.Query("patch") != "" {
+		context.Release = &apb.VulgateRpc_Context_Patch{
+			Patch: ctx.Query("patch"),
+		}
+	}
+
+	entry, err := h.Vulgate.GetEntry(ctx, &apb.VulgateRpc_GetEntryRequest{
+		Context: context,
+		Format:  apb.VulgateRpc_GetEntryRequest_Format(apb.VulgateRpc_GetEntryRequest_Format_value[ctx.Query("format")]),
+	})
+
+	if err != nil {
+		Failure(ctx, err, http.StatusInternalServerError)
+		return
+	}
+
+	Success(ctx, entry)
 }
