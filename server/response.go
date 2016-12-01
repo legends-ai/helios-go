@@ -14,7 +14,7 @@ func Success(ctx *gin.Context, pb proto.Message) {
 	var jsonb bytes.Buffer
 	if err := (&jsonpb.Marshaler{
 		EnumsAsInts:  false,
-		EmitDefaults: true,
+		EmitDefaults: false,
 		OrigName:     false,
 	}).Marshal(&jsonb, pb); err != nil {
 		Failure(ctx, err, http.StatusInternalServerError)
