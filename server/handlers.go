@@ -94,6 +94,35 @@ func (h *Handlers) HandleMatchup(ctx *gin.Context) {
 	Success(ctx, matchup)
 }
 
+func (h *Handlers) HandleStatistics(ctx *gin.Context) {
+	id, err := parseChampionId(ctx, "enemy")
+	enemyId := int32(id)
+	if err != nil {
+		enemyId = -1
+	}
+
+	tier, err := parseTier(ctx)
+	if err != nil {
+		Failure(ctx, err, http.StatusBadRequest)
+		return
+	}
+
+	region, err := parseRegion(ctx)
+	if err != nil {
+		Failure(ctx, err, http.StatusBadRequest)
+		return
+	}
+
+	statistics, err := h.Lucinda.GetStatistics(h.Context, &apb.LucindaRpc_GetStatisticsRequest{
+		EnemyChampionId: enemyId,
+		Patch:           parsePatch(ctx),
+		Tier:            tier,
+		Region:          region,
+	})
+
+	Success(ctx, statistics)
+}
+
 func (h *Handlers) HandleStaticEntry(ctx *gin.Context) {
 	region, err := parseRegion(ctx)
 	if err != nil {

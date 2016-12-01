@@ -21,6 +21,7 @@ func Router(cfg *config.AppConfig, h *Handlers) {
 	server := gin.New()
 	server.GET("/champion/:id", h.HandleChampion)
 	server.GET("/matchup/:focus/:enemy", h.HandleMatchup)
+	server.GET("/statistics", h.HandleStatistics)
 	server.GET("/static/entry", h.HandleStaticEntry)
 	server.Run(fmt.Sprintf(":%d", cfg.Port))
 }
