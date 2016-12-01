@@ -118,6 +118,7 @@ func (h *Handlers) HandleStatistics(ctx *gin.Context) {
 		Patch:           parsePatch(ctx),
 		Tier:            tier,
 		Region:          region,
+		Role:            parseRole(ctx),
 	})
 
 	Success(ctx, statistics)
@@ -130,24 +131,24 @@ func (h *Handlers) HandleStaticEntry(ctx *gin.Context) {
 		return
 	}
 
-	context := &apb.VulgateRpc_Context{
+	context := &apb.VulgateData_Context{
 		Locale: parseLocale(ctx),
 		Region: region,
 	}
 
 	if ctx.Query("version") != "" {
-		context.Release = &apb.VulgateRpc_Context_Version{
+		context.Release = &apb.VulgateData_Context_Version{
 			Version: ctx.Query("version"),
 		}
 	} else if ctx.Query("patch") != "" {
-		context.Release = &apb.VulgateRpc_Context_Patch{
+		context.Release = &apb.VulgateData_Context_Patch{
 			Patch: ctx.Query("patch"),
 		}
 	}
 
 	entry, err := h.Vulgate.GetEntry(ctx, &apb.VulgateRpc_GetEntryRequest{
 		Context: context,
-		Format:  apb.VulgateRpc_GetEntryRequest_Format(apb.VulgateRpc_GetEntryRequest_Format_value[ctx.Query("format")]),
+		Format:  apb.VulgateData_Format(apb.VulgateData_Format_value[ctx.Query("format")]),
 	})
 
 	if err != nil {
