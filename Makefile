@@ -15,7 +15,7 @@ syncbuild: syncmodule genproto
 genproto:
 	./proto/gen_go.sh
 
-syncmodule:
+syncproto:
 	cd proto && git pull origin master
 
 init:

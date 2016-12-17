@@ -1,19 +1,22 @@
-hash: a2c8fbf21f3e6c238ca092d9aaf51cd5b17ff02589695d5ba8b72d99e8fdcb30
-updated: 2016-10-23T18:35:24.571265417-05:00
+hash: 220204ed4e8447908c604517caf999fc08008d544bb6a1b00dcec8d5d47aaf34
+updated: 2016-12-17T06:55:35.194451433-05:00
 imports:
 - name: github.com/gin-gonic/gin
-  version: 3900df04d2a88e22beaf6a2970c63648b9e1b0e1
+  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
   subpackages:
   - binding
   - render
 - name: github.com/golang/protobuf
-  version: 1f49d83d9aa00e6ce4fc8258c71cc7786aec968a
+  version: 8ee79997227bf9b34611aee7946ae64735e6fd93
   subpackages:
   - jsonpb
   - proto
+  - ptypes/empty
   - ptypes/timestamp
 - name: github.com/manucorporat/sse
   version: ee05b128a739a0fb76c7ebd3ae4810c1de808d6d
+- name: github.com/mattn/go-isatty
+  version: 30a891c33c7cde7b02a981314b4228ec99380cca
 - name: golang.org/x/net
   version: c33d37840d93fc75251f49ab83c5fc8b2faea5e8
   subpackages:
@@ -24,8 +27,12 @@ imports:
   - internal/timeseries
   - lex/httplex
   - trace
+- name: golang.org/x/sys
+  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
+  subpackages:
+  - unix
 - name: google.golang.org/grpc
-  version: b7f1379d3cbbbeb2ca3405852012e237aa05459e
+  version: 708a7f9f3283aa2d4f6132d287d78683babe55c8
   subpackages:
   - codes
   - credentials
@@ -34,9 +41,11 @@ imports:
   - metadata
   - naming
   - peer
+  - stats
+  - tap
   - transport
 - name: gopkg.in/gin-gonic/gin.v1
-  version: 2dae550eb5392006a4582ce9c90016a9b5a74e8b
+  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
 - name: gopkg.in/go-playground/validator.v8
   version: c193cecd124b5cc722d7ee5538e945bdb3348435
 - name: gopkg.in/yaml.v2
