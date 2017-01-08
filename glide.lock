@@ -1,5 +1,5 @@
 hash: 220204ed4e8447908c604517caf999fc08008d544bb6a1b00dcec8d5d47aaf34
-updated: 2016-12-17T06:55:35.194451433-05:00
+updated: 2017-01-08T00:01:14.246177288-06:00
 imports:
 - name: github.com/gin-gonic/gin
   version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
@@ -7,7 +7,7 @@ imports:
   - binding
   - render
 - name: github.com/golang/protobuf
-  version: 8ee79997227bf9b34611aee7946ae64735e6fd93
+  version: 1f49d83d9aa00e6ce4fc8258c71cc7786aec968a
   subpackages:
   - jsonpb
   - proto
@@ -28,7 +28,7 @@ imports:
   - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
+  version: 8f0908ab3b2457e2e15403d3697c9ef5cb4b57a9
   subpackages:
   - unix
 - name: google.golang.org/grpc
