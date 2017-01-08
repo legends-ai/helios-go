@@ -49,19 +49,13 @@ func parseTier(ctx *gin.Context) (*apb.TierRange, error) {
 	if len(tiers) == 1 {
 		tiers = append(tiers, tiers[0])
 	}
-	minTier, err := strconv.ParseUint(tiers[0], 0, 32)
-	if err != nil {
-		return nil, errors.New(ErrorInvalidTier)
-	}
 
-	maxTier, err := strconv.ParseUint(tiers[1], 0, 32)
-	if err != nil {
-		return nil, errors.New(ErrorInvalidTier)
-	}
+	minTier := apb.Tier(apb.Tier_value[tiers[0]])
+	maxTier := apb.Tier(apb.Tier_value[tiers[1]])
 
 	return &apb.TierRange{
-		Min: uint32(minTier),
-		Max: uint32(maxTier),
+		Min: minTier,
+		Max: maxTier,
 	}, nil
 }
 
