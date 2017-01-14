@@ -28,12 +28,12 @@ docker-build:
 	docker build -t helios .
 
 docker-push:
-	docker tag helios:latest 096202052535.dkr.ecr.us-west-2.amazonaws.com/helios:latest
-	docker push 096202052535.dkr.ecr.us-west-2.amazonaws.com/helios:latest
+	docker tag helios:latest 096202052535.dkr.ecr.us-east-1.amazonaws.com/helios:latest
+	docker push 096202052535.dkr.ecr.us-east-1.amazonaws.com/helios:latest
 
 docker-build-dev:
 	docker build -t helios:dev .
 
 docker-push-dev:
-	docker tag helios:dev 096202052535.dkr.ecr.us-west-2.amazonaws.com/helios:dev
-	docker push 096202052535.dkr.ecr.us-west-2.amazonaws.com/helios:dev
+	docker tag helios:dev 096202052535.dkr.ecr.us-east-1.amazonaws.com/helios:dev
+	docker push 096202052535.dkr.ecr.us-east-1.amazonaws.com/helios:dev
