@@ -1,8 +1,8 @@
 hash: 220204ed4e8447908c604517caf999fc08008d544bb6a1b00dcec8d5d47aaf34
-updated: 2017-01-08T00:01:14.246177288-06:00
+updated: 2017-01-27T11:05:30.511004618-06:00
 imports:
 - name: github.com/gin-gonic/gin
-  version: e2212d40c62a98b388a5eb48ecbdcf88534688ba
+  version: 3900df04d2a88e22beaf6a2970c63648b9e1b0e1
   subpackages:
   - binding
   - render
@@ -28,7 +28,7 @@ imports:
   - lex/httplex
   - trace
 - name: golang.org/x/sys
-  version: 8f0908ab3b2457e2e15403d3697c9ef5cb4b57a9
+  version: d75a52659825e75fff6158388dddc6a5b04f9ba5
   subpackages:
   - unix
 - name: google.golang.org/grpc
