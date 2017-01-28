@@ -10,20 +10,20 @@ import (
 	apb "github.com/asunaio/helios/gen-go/asuna"
 )
 
-func parseChampionId(ctx *gin.Context, field string) (uint32, error) {
+func parseChampionId(ctx *gin.Context, field string) (*apb.ChampionId, error) {
 	id := ctx.Param(field)
 	championId, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
 		switch field {
 		case "focus":
-			return 0, errors.New(ErrorInvalidFocusId)
+			return nil, errors.New(ErrorInvalidFocusId)
 		case "enemy":
-			return 0, errors.New(ErrorInvalidEnemyId)
+			return nil, errors.New(ErrorInvalidEnemyId)
 		default:
-			return 0, errors.New(ErrorInvalidChampionId)
+			return nil, errors.New(ErrorInvalidChampionId)
 		}
 	}
-	return uint32(championId), nil
+	return &apb.ChampionId{uint32(championId)}, nil
 }
 
 func parsePatch(ctx *gin.Context) *apb.PatchRange {

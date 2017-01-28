@@ -95,10 +95,9 @@ func (h *Handlers) HandleMatchup(ctx *gin.Context) {
 }
 
 func (h *Handlers) HandleStatistics(ctx *gin.Context) {
-	id, err := parseChampionId(ctx, "enemy")
-	enemyId := int32(id)
+	enemyId, err := parseChampionId(ctx, "enemy")
 	if err != nil {
-		enemyId = -1
+		enemyId = nil
 	}
 
 	tier, err := parseTier(ctx)
